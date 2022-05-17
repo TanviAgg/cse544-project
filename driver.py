@@ -1,6 +1,7 @@
 import pandas as pd
 
 from preprocessing import get_state_data, get_daily_cases_data, remove_outliers
+from two_ks_test import two_sample_KS_test
 
 # States allocates: Connecticut (CT) and Florida (FL)
 
@@ -58,15 +59,37 @@ def process_vax_data():
     return ct_daily_cleaned_vax_data, fl_daily_cleaned_vax_data
 
 
+def get_data_for_date_range(data, start_date, end_date, date_col_name):
+    return data[(data[date_col_name] >= start_date) & (data[date_col_name] <= end_date)].reset_index(drop=True)
+
+
 if __name__ == "__main__":
+    print("-----------Part 1--------------")
+    print("-----------Data cleaning for cases and death statistics--------------")
     # Mandatory Task 1: To clean the given dataset for cases
     ct_daily_cleaned_data, fl_daily_cleaned_data = process_cases_data()
 
-    ct_daily_cleaned_data.to_csv('./processed/clean_ct_cases.csv')
-    fl_daily_cleaned_data.to_csv('./processed/clean_fl_cases.csv')
+    # ct_daily_cleaned_data.to_csv('./processed/clean_ct_cases.csv')
+    # fl_daily_cleaned_data.to_csv('./processed/clean_fl_cases.csv')
 
-    # Mandatory Task 1: To clean the given dataset for vaccinations
+    print("-----------Data cleaning for vaccination statistics--------------")
     ct_daily_cleaned_vax_data, fl_daily_cleaned_vax_data = process_vax_data()
 
-    ct_daily_cleaned_vax_data.to_csv('./processed/clean_ct_vax.csv')
-    fl_daily_cleaned_vax_data.to_csv('./processed/clean_fl_vax.csv')
+    # ct_daily_cleaned_vax_data.to_csv('./processed/clean_ct_vax.csv')
+    # fl_daily_cleaned_vax_data.to_csv('./processed/clean_fl_vax.csv')
+
+    print("\n\n-----------Part 2b--------------")
+    # Mandatory Task 2b: To infer equality of distributions
+    start_date = '2021-10-01'
+    end_date = '2021-12-31'
+    ct_last_quarter_cases = get_data_for_date_range(ct_daily_cleaned_data, start_date, end_date, 'submission_date')
+    fl_last_quarter_cases = get_data_for_date_range(fl_daily_cleaned_data, start_date, end_date, 'submission_date')
+
+    print("----------- Two-sample KS test--------------")
+    two_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_cases')
+    two_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_death')
+
+    # perm
+    print("----------- Permutation test--------------")
+
+    print("----------- One-sample KS test--------------")
