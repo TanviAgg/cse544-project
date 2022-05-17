@@ -3,6 +3,7 @@ from two_ks_test import two_sample_KS_test
 from permutation_test import permutation_test
 from one_ks_test import one_sample_KS_test
 from hypothesis_test_2a import run_hyp_tests
+from bayesian import analyze_ct, analyze_fl
 
 # States allocates: Connecticut (CT) and Florida (FL)
 
@@ -104,3 +105,11 @@ if __name__ == "__main__":
     one_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_cases')
     print("\n----------- Deaths --------------")
     one_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_death')
+
+    print("\n\n-----------Part 2c--------------")
+    # Mandatory Task 2c: Bayesian inference
+    print("\n----------- Connecticut stats --------------")
+    analyze_ct(ct_daily_cleaned_data)
+    print("\n----------- Florida stats --------------")
+    analyze_fl(fl_daily_cleaned_data)
+
