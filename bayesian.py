@@ -42,7 +42,7 @@ def analyze_ct(ct_data):
     beta_4 = beta_3 + len(eightht_week_data)
     y5 = stats.gamma.pdf(x, a=alpha_4, scale=1 / beta_4)
 
-    figure(figsize=(10, 3), dpi=80)
+    figure(figsize=(10, 5), dpi=100)
     plt.plot(x, y1, label='Prior - Exponiential distribution')
     plt.plot(x, y2, label='Posterior after week-5 (Gamma distribution)')
     plt.plot(x, y3, label='Posterior after week-6 (Gamma distribution)')
@@ -109,7 +109,7 @@ def analyze_fl(fl_data):
     beta_4 = beta_3 + len(eightht_week_data)
     y5 = stats.gamma.pdf(x, a=alpha_4, scale=1 / beta_4)
 
-    figure(figsize=(10, 3), dpi=80)
+    figure(figsize=(10, 5), dpi=100)
     plt.plot(x, y1, label='Prior - Exponiential distribution')
     plt.plot(x, y2, label='Posterior after week-5 (Gamma distribution)')
     plt.plot(x, y3, label='Posterior after week-6 (Gamma distribution)')
