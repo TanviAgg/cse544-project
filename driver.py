@@ -2,6 +2,7 @@ import pandas as pd
 
 from preprocessing import get_state_data, get_daily_cases_data, remove_outliers
 from two_ks_test import two_sample_KS_test
+from permutation_test import permutation_test
 
 # States allocates: Connecticut (CT) and Florida (FL)
 
@@ -91,5 +92,7 @@ if __name__ == "__main__":
 
     # perm
     print("----------- Permutation test--------------")
+    permutation_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_cases')
+    permutation_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_death')
 
     print("----------- One-sample KS test--------------")

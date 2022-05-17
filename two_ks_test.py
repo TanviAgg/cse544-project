@@ -77,11 +77,11 @@ def two_sample_KS_test(state1_data, state2_data, col_name):
     critical_value = 0.05
     if d > critical_value:
         print(
-            "KS Test for col: {} rejects the null hypothesis as value is {}, which is more than the p-value: {}".format(
+            "KS Test for col: {} rejects the null hypothesis as value is {}, which is more than the critical-value: {}".format(
                 col_name, d, critical_value
             ))
     else:
         print(
-            "KS Test for col: {} accepts the null hypothesis as value is {}, which is less than the p-value: {}".format(
+            "KS Test for col: {} accepts the null hypothesis as value is {}, which is less than the critical-value: {}".format(
                 col_name, d, critical_value
             ))
