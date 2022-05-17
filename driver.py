@@ -79,8 +79,10 @@ if __name__ == "__main__":
 
     # ct_daily_cleaned_vax_data.to_csv('./processed/clean_ct_vax.csv')
     # fl_daily_cleaned_vax_data.to_csv('./processed/clean_fl_vax.csv')
+
     print("\n\n-----------Part 2a--------------")
     run_hyp_tests()
+
     print("\n\n-----------Part 2b--------------")
     # Mandatory Task 2b: To infer equality of distributions
     start_date = '2021-10-01'

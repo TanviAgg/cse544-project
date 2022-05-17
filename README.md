@@ -6,6 +6,7 @@ The raw dataset is downloaded from the CDC website link provided.
 States allotted: Connecticut (CT) and Florida (FL)
 1) `dataset/` contains raw data files
 2) `processed/` contains the data for these states which is cleaned during preprocessing
+3) `plots/` contains the plots for bayesian inference
 
 ## Execution
 To run the code for all the mandatory tasks, execute the following: 
