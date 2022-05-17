@@ -9,11 +9,10 @@ from matplotlib.pyplot import figure
 
 
 def part_e_d():
-    figure(figsize=(15, 5), dpi=100)
     #read the cleaned vaccination dataset for florida
     df_fl = pd.read_csv('./processed/clean_fl_vax.csv')
 
-    #read the cleaned vaccination dataset for conneticut
+    #read the cleaned vaccination dataset for Connecticut
     df_ct = pd.read_csv('./processed/clean_ct_vax.csv')
     df_fl.Date = pd.to_datetime(df_fl.Date)
 
@@ -48,8 +47,8 @@ def part_e_d():
         sd = math.sqrt(np.var(D))
         T = mean/(sd/math.sqrt(n))
         return T
-    print('T value for Paired T-test for means of number of vaccines administered between Florida state and Conneticut State for september: ',paired_T_test(sept_FL,sept_CT))
-    print('T value for Paired T-test for means of number of vaccines administered between Florida state and Conneticut State for november: ',paired_T_test(nov_FL,nov_CT))
+    print('T value for Paired T-test for means of number of vaccines administered between Florida state and Connecticut State for september: ',paired_T_test(sept_FL,sept_CT))
+    print('T value for Paired T-test for means of number of vaccines administered between Florida state and Connecticut State for november: ',paired_T_test(nov_FL,nov_CT))
 
     #function to calculate MSE
     def MSE(Y_act, Y_pred):
@@ -118,18 +117,18 @@ def part_e_d():
     plt.title('AR prediction on Administered Vaccines in FLORIDA')
     plt.legend(loc="upper right")
     plt.grid()
-    plt.savefig('./plots/AR_prediction_Florida.png')
+    plt.savefig('./plots/AR_prediction_florida.png')
 
-    #AR results for conneticut state
+    #AR results for Connecticut state
     y_pred_CT_AR_a, y_act_CT_AR_a = AR(may_CT['Administered'],5)
-    print("Conneticut state : MSE of AR with p = 5 is " ,MSE(y_act_CT_AR_a, y_pred_CT_AR_a))
-    print("Conneticut state : MAPE of AR with p = 5 is" ,MAPE(y_act_CT_AR_a, y_pred_CT_AR_a))
+    print("Connecticut state : MSE of AR with p = 5 is " ,MSE(y_act_CT_AR_a, y_pred_CT_AR_a))
+    print("Connecticut state : MAPE of AR with p = 5 is" ,MAPE(y_act_CT_AR_a, y_pred_CT_AR_a))
 
     y_pred_CT_AR_b, y_act_CT_AR_b = AR(may_CT['Administered'],3)
-    print("Conneticut state : MSE of AR with p = 3 is " ,MSE(y_act_CT_AR_b, y_pred_CT_AR_b))
-    print("Conneticut state : MAPE of AR with p = 3 is" ,MAPE(y_act_CT_AR_b, y_pred_CT_AR_b))
+    print("Connecticut state : MSE of AR with p = 3 is " ,MSE(y_act_CT_AR_b, y_pred_CT_AR_b))
+    print("Connecticut state : MAPE of AR with p = 3 is" ,MAPE(y_act_CT_AR_b, y_pred_CT_AR_b))
 
-    #plot for conneticut
+    #plot for Connecticut
     X = [i for i in range(1,8)]
     plt.figure('AR_c')
     plt.plot(X, y_act_CT_AR_a ,label='Actual')
@@ -137,7 +136,7 @@ def part_e_d():
     plt.plot(X, y_pred_CT_AR_a ,label='AR p = 5')
     plt.xlabel('Days in the last week of MAY')
     plt.ylabel('No. of vaccines administered')
-    plt.title('AR prediction on Administered Vaccines in CONNETICUT')
+    plt.title('AR prediction on Administered Vaccines in Connecticut')
     plt.legend(loc="upper right")
     plt.grid()
     plt.savefig('./plots/AR_prediction_Connecticut.png')
@@ -172,19 +171,19 @@ def part_e_d():
     plt.title('EWMA prediction on Administered Vaccines in FLORIDA')
     plt.legend(loc="upper right")
     plt.grid()
-    plt.savefig('./plots/EWMA_prediction_Florida.png')
+    plt.savefig('./plots/EWMA_prediction_florida.png')
 
     #EWMA results for co nneticut with alpha = 0.5
     y_pred_CT_EWMA_a, y_act_CT_EWMA_a = EWMA(may_CT['Administered'],0.5)
-    print("Conneticut state : MSE of EWMA with alpha = 0.5 is " ,MSE(y_act_CT_EWMA_a, y_pred_CT_EWMA_a))
-    print("Conneticut state : MAPE of EWMA with alpha = 0.5 is" ,MAPE(y_act_CT_EWMA_a, y_pred_CT_EWMA_a))
+    print("Connecticut state : MSE of EWMA with alpha = 0.5 is " ,MSE(y_act_CT_EWMA_a, y_pred_CT_EWMA_a))
+    print("Connecticut state : MAPE of EWMA with alpha = 0.5 is" ,MAPE(y_act_CT_EWMA_a, y_pred_CT_EWMA_a))
 
-    #EWMA results for conneticut with alpha = 0.8
+    #EWMA results for Connecticut with alpha = 0.8
     y_pred_CT_EWMA_b, y_act_CT_EWMA_b = EWMA(may_CT['Administered'],0.8)
-    print("Conneticut state : MSE of EWMA with alpha = 0.8 is " ,MSE(y_act_CT_EWMA_b, y_pred_CT_EWMA_b))
-    print("Conneticut state : MAPE of EWMA with alpha = 0.8 is" ,MAPE(y_act_CT_EWMA_b, y_pred_CT_EWMA_b))
+    print("Connecticut state : MSE of EWMA with alpha = 0.8 is " ,MSE(y_act_CT_EWMA_b, y_pred_CT_EWMA_b))
+    print("Connecticut state : MAPE of EWMA with alpha = 0.8 is" ,MAPE(y_act_CT_EWMA_b, y_pred_CT_EWMA_b))
 
-    #plot for EWMA for conneticut state
+    #plot for EWMA for Connecticut state
     X = [i for i in range(1,8)]
     plt.figure('EWMA_c')
     plt.plot(X, y_act_CT_EWMA_a ,label='Actual')
@@ -192,7 +191,7 @@ def part_e_d():
     plt.plot(X, y_pred_CT_EWMA_a ,label='EWMA 0.5 pred')
     plt.xlabel('Days in the last week of MAY')
     plt.ylabel('No. of vaccines administered')
-    plt.title('EWMA prediction on Administered Vaccines in CONNETICUT')
+    plt.title('EWMA prediction on Administered Vaccines in Connecticut')
     plt.legend(loc="upper right")
     plt.grid()
     plt.savefig('./plots/EWMA_prediction_Connecticut.png')
