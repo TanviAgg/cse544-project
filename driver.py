@@ -3,6 +3,7 @@ import pandas as pd
 from preprocessing import get_state_data, get_daily_cases_data, remove_outliers
 from two_ks_test import two_sample_KS_test
 from permutation_test import permutation_test
+from one_ks_test import one_sample_KS_test
 
 # States allocates: Connecticut (CT) and Florida (FL)
 
@@ -86,13 +87,20 @@ if __name__ == "__main__":
     ct_last_quarter_cases = get_data_for_date_range(ct_daily_cleaned_data, start_date, end_date, 'submission_date')
     fl_last_quarter_cases = get_data_for_date_range(fl_daily_cleaned_data, start_date, end_date, 'submission_date')
 
-    print("----------- Two-sample KS test--------------")
+    print("\n\n----------- Two-sample KS test--------------")
+    print("\n----------- Cases --------------")
     two_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_cases')
+    print("\n----------- Deaths --------------")
     two_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_death')
 
-    # perm
-    print("----------- Permutation test--------------")
+    print("\n\n----------- Permutation test--------------")
+    print("\n----------- Cases --------------")
     permutation_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_cases')
+    print("\n----------- Deaths --------------")
     permutation_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_death')
 
-    print("----------- One-sample KS test--------------")
+    print("\n\n----------- One-sample KS test--------------")
+    print("\n----------- Cases --------------")
+    one_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_cases')
+    print("\n----------- Deaths --------------")
+    one_sample_KS_test(ct_last_quarter_cases, fl_last_quarter_cases, 'tot_death')

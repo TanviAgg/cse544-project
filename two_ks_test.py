@@ -48,12 +48,19 @@ def two_sample_KS_test(state1_data, state2_data, col_name):
 
     ks_values = []
 
+    # compute table column values for each x
     for x in x_vals:
+        # ecdf to the left of x for state 1's distribution
         F1_left = get_ecdf_for_point(state1_data_sorted_distinct, col_name, x, 'eCDF', left=True)
+        # ecdf to the right of x for state 1's distribution
         F1_right = get_ecdf_for_point(state1_data_sorted_distinct, col_name, x, 'eCDF')
+        # ecdf to the left of x for state 2's distribution
         F2_left = get_ecdf_for_point(state2_data_sorted_distinct, col_name, x, 'eCDF', left=True)
+        # ecdf to the right of x for state 2's distribution
         F2_right = get_ecdf_for_point(state2_data_sorted_distinct, col_name, x, 'eCDF')
+        # difference between corresponding left ecdf values
         abs_diff_left = round(abs(F1_left - F2_left), 4)
+        # difference between corresponding right ecdf values
         abs_diff_right = round(abs(F1_right - F2_right), 4)
 
         ks_values.append(
@@ -71,17 +78,22 @@ def two_sample_KS_test(state1_data, state2_data, col_name):
                                                 'abs_diff_left', 'abs_diff_right'])
 
     # Calculate KS statistic
+    # max of right ecdf values
     max_d_right = table_ks['abs_diff_right'].max()
+    # max of left ecdf values
     max_d_left = table_ks['abs_diff_left'].max()
+    # max of both values
     d = max(max_d_right, max_d_left)
     critical_value = 0.05
     if d > critical_value:
         print(
-            "KS Test for col: {} rejects the null hypothesis as value is {}, which is more than the critical-value: {}".format(
+            "KS Test for col: {} rejects the null hypothesis.\nThe statistic d is {}, which is more than the critical-value: {}".format(
                 col_name, d, critical_value
             ))
+        print()
     else:
         print(
-            "KS Test for col: {} accepts the null hypothesis as value is {}, which is less than the critical-value: {}".format(
+            "KS Test for col: {} accepts the null hypothesis.\nThe statistic d is {}, which is less than the critical-value: {}".format(
                 col_name, d, critical_value
             ))
+        print()
