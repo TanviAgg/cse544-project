@@ -4,6 +4,7 @@ from permutation_test import permutation_test
 from one_ks_test import one_sample_KS_test
 from hypothesis_test_2a import run_hyp_tests
 from bayesian import analyze_ct, analyze_fl
+from ar_ewma_pairedTtest import part_e_d
 
 # States allocates: Connecticut (CT) and Florida (FL)
 
@@ -71,14 +72,14 @@ if __name__ == "__main__":
     # Mandatory Task 1: To clean the given dataset for cases
     ct_daily_cleaned_data, fl_daily_cleaned_data = process_cases_data()
 
-    # ct_daily_cleaned_data.to_csv('./processed/clean_ct_cases.csv')
-    # fl_daily_cleaned_data.to_csv('./processed/clean_fl_cases.csv')
+    ct_daily_cleaned_data.to_csv('./processed/clean_ct_cases.csv')
+    fl_daily_cleaned_data.to_csv('./processed/clean_fl_cases.csv')
 
     print("-----------Data cleaning for vaccination statistics--------------")
     ct_daily_cleaned_vax_data, fl_daily_cleaned_vax_data = process_vax_data()
 
-    # ct_daily_cleaned_vax_data.to_csv('./processed/clean_ct_vax.csv')
-    # fl_daily_cleaned_vax_data.to_csv('./processed/clean_fl_vax.csv')
+    ct_daily_cleaned_vax_data.to_csv('./processed/clean_ct_vax.csv')
+    fl_daily_cleaned_vax_data.to_csv('./processed/clean_fl_vax.csv')
 
     print("\n\n-----------Part 2a--------------")
     run_hyp_tests()
@@ -114,4 +115,7 @@ if __name__ == "__main__":
     analyze_ct(ct_daily_cleaned_data)
     print("\n----------- Florida stats --------------")
     analyze_fl(fl_daily_cleaned_data)
+
+    print("\n\n-----------Part 2d and 2e--------------")
+    part_e_d()
 
