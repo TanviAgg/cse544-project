@@ -16,7 +16,7 @@ def filter_time(df, month):
 
 
 def get_mean(df, col):
-    return df[col].sum() / df[col].size
+    return df[col].sum() / df[col].shape[0]
 
 
 def walds_one_sample_test(true_df, predicted_df, column, state, alpha=0.05):
@@ -36,7 +36,7 @@ def walds_one_sample_test(true_df, predicted_df, column, state, alpha=0.05):
     lambda_est_mle = theta_cap
     # variance of poisson distribution is lambda
     # from class, after simplifying for estimator std_err = root(variance/n)
-    standard_error = math.sqrt(lambda_est_mle / predicted_df.size)
+    standard_error = math.sqrt(lambda_est_mle / predicted_df.shape[0])
     W = abs(round((theta_cap - theta_knot) / standard_error, 2))
     p_val = round(norm.ppf(1 - (alpha / 2)), 2)
     print("True Mean = {0:.2f}, Sample Mean = {1:.2f}, Standard Error = {2:.2f}".format(theta_knot, theta_cap,
@@ -65,7 +65,7 @@ def walds_two_sample_test(true_df, predicted_df, column, state, alpha=0.05):
     delta_1 = get_mean(predicted_df, column)
     # similar to one sample Wald's test we get lambda_MLE as the sample mean which is also the variance for poisson distribution
     # from class, we know that std_err = root(var1/n + var2/m) after simplification
-    standard_error = math.sqrt((delta_0 / true_df.size) + (delta_1 / predicted_df.size))
+    standard_error = math.sqrt((delta_0 / true_df.shape[0]) + (delta_1 / predicted_df.shape[0]))
     W = abs(round((delta_1 - delta_0) / standard_error, 2))
     p_val = round(norm.ppf(1 - (alpha / 2)), 2)
     print("Mean X = {0:.2f}, Mean Y = {1:.2f}, Standard Error = {2:.2f}".format(delta_0, delta_1, standard_error))
@@ -92,10 +92,10 @@ def t_test(true_df, predicted_df, column, state, alpha=0.05):
             column, state))
     true_mean = get_mean(true_df, column)
     sample_mean = get_mean(predicted_df, column)
-    std_dev = math.sqrt(((predicted_df[column] - sample_mean) ** 2).sum() / predicted_df.size - 1)
-    T = abs(round((sample_mean - true_mean) / (std_dev / math.sqrt(predicted_df.size)), 3))
+    std_dev = math.sqrt(((predicted_df[column] - sample_mean) ** 2).sum() / predicted_df.shape[0] - 1)
+    T = abs(round((sample_mean - true_mean) / (std_dev / math.sqrt(predicted_df.shape[0])), 3))
     # Looking up in T table and keeping degree of freedom as n-1
-    p_val = round(t.ppf(1 - (alpha / 2), df=predicted_df.size - 1), 2)
+    p_val = round(t.ppf(1 - (alpha / 2), df=predicted_df.shape[0] - 1), 2)
     print("True Mean = {0:.2f}, Sample Mean = {1:.2f}, Standard Deviation = {2:.2f}".format(true_mean, sample_mean,
                                                                                             std_dev))
     if T > p_val:
@@ -120,12 +120,12 @@ def t_test_unpaired(X, Y, column, state, alpha=0.05):
           "state - {1}".format(column, state))
     X_mean = get_mean(X, column)
     Y_mean = get_mean(Y, column)
-    std_dev1_2 = ((X[column] - X_mean) ** 2).sum() / X.size - 1
-    std_dev2_2 = ((Y[column] - Y_mean) ** 2).sum() / Y.size - 1
-    pool_stddev = math.sqrt(std_dev1_2 / X.size + std_dev2_2 / Y.size)
+    std_dev1_2 = ((X[column] - X_mean) ** 2).sum() / X.shape[0] - 1
+    std_dev2_2 = ((Y[column] - Y_mean) ** 2).sum() / Y.shape[0] - 1
+    pool_stddev = math.sqrt(std_dev1_2 / X.shape[0] + std_dev2_2 / Y.shape[0])
     T = abs(round((X_mean - Y_mean) / pool_stddev, 2))
     # Looking up in T table and keeping degree of freedom as m-1 + n-1 = m+n-2
-    p_val = round(t.ppf(1 - (alpha / 2), df=X.size + Y.size - 2), 2)
+    p_val = round(t.ppf(1 - (alpha / 2), df=X.shape[0] + Y.shape[0] - 2), 2)
     print("Mean X = {0:.2f}, Mean Y = {1:.2f}, Standard Deviation = {2:.2f}".format(X_mean, Y_mean, pool_stddev))
     if T > p_val:
         print(
@@ -153,22 +153,22 @@ def z_test(true_df, predicted_df, df, column, state, alpha=0.05):
     data_mean = get_mean(df, column)
     # the true uncorrected standard deviation for our dataset is calculated on
     # the entire dataset for that state without date filter
-    std_dev = math.sqrt(((df[column] - data_mean) ** 2).sum() / df.size)
-    Z = abs(round((X_mean - mu_knot) / (std_dev / math.sqrt(predicted_df.size)), 2))
+    std_dev = math.sqrt(((df[column] - data_mean) ** 2).sum() / df.shape[0])
+    Z = abs(round((X_mean - mu_knot) / (std_dev / math.sqrt(predicted_df.shape[0])), 2))
     p_val = round(norm.ppf(1 - (alpha / 2)), 2)
     print("Mean X = {0:.2f}, Mean Y = {1:.2f}, Standard Deviation = {2:.2f}".format(X_mean, mu_knot, std_dev))
     if Z > p_val:
         print(
-            "Rejected null hypothesis as the Wald's Statistic {0} is greater than the critical value {1} specified.".format(
+            "Rejected null hypothesis as the Z Statistic {0} is greater than the critical value {1} specified.".format(
                 Z, p_val))
     else:
         print(
-            "Accepted null hypothesis as the Wald's Statistic {0} is less than or equal to the critical value {1} specified.".format(
+            "Accepted null hypothesis as the Z Statistic {0} is less than or equal to the critical value {1} specified.".format(
                 Z, p_val))
     print()
 
 
-def main():
+def run_hyp_tests():
     # Full Dataset of each state
     data_ct = pd.read_csv("processed/clean_ct_cases.csv")
     data_fl = pd.read_csv("processed/clean_fl_cases.csv")
@@ -208,7 +208,3 @@ def main():
     t_test_unpaired(feb_df_FL, mar_df_FL, 'new_death', 'Florida')
     t_test_unpaired(feb_df_CT, mar_df_CT, 'new_case', 'Connecticut')
     t_test_unpaired(feb_df_CT, mar_df_CT, 'new_death', 'Connecticut')
-
-
-if __name__ == '__main__':
-    main()

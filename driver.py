@@ -1,9 +1,8 @@
-import pandas as pd
-
 from preprocessing import get_state_data, get_daily_cases_data, remove_outliers
 from two_ks_test import two_sample_KS_test
 from permutation_test import permutation_test
 from one_ks_test import one_sample_KS_test
+from hypothesis_test_2a import run_hyp_tests
 
 # States allocates: Connecticut (CT) and Florida (FL)
 
@@ -79,7 +78,8 @@ if __name__ == "__main__":
 
     # ct_daily_cleaned_vax_data.to_csv('./processed/clean_ct_vax.csv')
     # fl_daily_cleaned_vax_data.to_csv('./processed/clean_fl_vax.csv')
-
+    print("\n\n-----------Part 2a--------------")
+    run_hyp_tests()
     print("\n\n-----------Part 2b--------------")
     # Mandatory Task 2b: To infer equality of distributions
     start_date = '2021-10-01'
